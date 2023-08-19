@@ -6,7 +6,8 @@ type RecipeInput = {
 };
 
 export async function GET() {
-  const { rows } = await sql`SELECT * FROM recipe ORDER BY id DESC LIMIT 10`;
+  const { rows } =
+    await sql`SELECT * FROM recipe ORDER BY likes DESC, id DESC LIMIT 10`;
 
   return new Response(JSON.stringify(rows), {
     headers: {
@@ -17,6 +18,22 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const { markdown } = (await req.json()) as RecipeInput;
+
+  const split = markdown.split("\n");
+
+  if (split.length < 2) {
+    return new Response(
+      JSON.stringify({
+        error: "Unlikely to contain a recipe",
+      }),
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+        status: 400,
+      }
+    );
+  }
 
   const title = markdown.split("\n")[0].replaceAll("#", "").trim();
 
