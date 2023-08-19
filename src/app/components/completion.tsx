@@ -117,12 +117,21 @@ export function Completion() {
   const [selectedDietaryRequirements, setSelectedDietaryRequirements] =
     useState<string[]>([]);
 
-  const submitHandler = async (e?: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (
+    e?: React.FormEvent<HTMLFormElement>,
+    isGenerateAnother = false
+  ) => {
     e?.preventDefault();
     let prompt = input.trim();
     if (dietaryRequirements.length > 0) {
       prompt += "\nDIETRY REQUIREMENTS: \n";
       prompt += selectedDietaryRequirements.join("\n");
+    }
+    if (isGenerateAnother) {
+      const previousRecipe = completion?.split("\n")?.[0];
+      if (previousRecipe) {
+        prompt += `\n\nDO NOT SUGGEST: ${previousRecipe}`;
+      }
     }
 
     await complete(prompt);
@@ -268,7 +277,7 @@ export function Completion() {
             <div className="flex justify-start space-x-4 mt-2">
               <button
                 type="button"
-                onClick={() => submitHandler()}
+                onClick={() => submitHandler(undefined, true)}
                 className="py-2 flex-1 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-400 focus:outline-none"
               >
                 Generate another
