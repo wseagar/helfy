@@ -108,6 +108,7 @@ async function saveRecipe(recipe: string) {
     body: JSON.stringify({ markdown: recipe }),
   });
   const data = await response.json();
+  console.log(data);
   return data;
 }
 
