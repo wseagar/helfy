@@ -84,6 +84,7 @@ export function Completion() {
     handleInputChange,
     handleSubmit,
     setInput,
+    setCompletion,
   } = useCompletion({
     api: "/api/completion",
   });
@@ -99,6 +100,7 @@ export function Completion() {
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <textarea
+              rows={3}
               value={input}
               placeholder="Enter your ingredients here..."
               onChange={handleInputChange}
@@ -141,6 +143,20 @@ export function Completion() {
       )}
       {completion && (
         <>
+          {!isLoading && (
+            <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-4">
+              <h1 className="text-2xl font-bold">Helfy</h1>
+              <button
+                onClick={() => {
+                  setInput("");
+                  setCompletion("");
+                }}
+                className="text-blue-400 hover:text-blue-300 focus:outline-none"
+              >
+                Back
+              </button>
+            </div>
+          )}
           <ReactMarkdown
             className="prose prose-invert break-words prose-p:leading-relaxed prose-pre:p-0"
             remarkPlugins={[remarkGfm, remarkMath]}
