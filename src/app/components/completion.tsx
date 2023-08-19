@@ -49,7 +49,7 @@ export function Completion() {
           <button
             disabled={isLoading}
             type="submit"
-            className={`py-2 px-4 bg-blue-500 text-white rounded-md flex-1 ${
+            className={`py-2 px-4 bg-blue-500 text-white rounded-md flex-[3] ${
               isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-400"
             } focus:outline-none`}
           >
