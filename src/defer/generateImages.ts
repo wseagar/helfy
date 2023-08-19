@@ -2,8 +2,7 @@
 import { defer } from "@defer/client";
 import { Configuration, OpenAIApi } from "openai-edge";
 import { sql } from "@vercel/postgres";
-import { Credentials } from "aws-sdk";
-import S3 from "aws-sdk/clients/s3";
+import { S3 } from "@aws-sdk/client-s3";
 
 // CREATE TABLE IF NOT EXISTS recipe (
 //     id SERIAL PRIMARY KEY,
@@ -13,15 +12,12 @@ import S3 from "aws-sdk/clients/s3";
 //     images BYTEA[]
 // );`;
 
-const access = new Credentials({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-});
-
 const s3 = new S3({
-  credentials: access,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
   region: "ap-southeast-2", //"us-west-2"
-  signatureVersion: "v4",
 });
 
 const bucketName = "helfy-img";
@@ -63,9 +59,16 @@ async function generateImages(id: string, title: string) {
       };
 
       console.log("s3.upload", params);
-      const result = await s3.upload(params).promise();
-      console.log("s3.upload.result", result);
-      s3Urls.push(result.Location);
+      const result = await s3.putObject({
+        Bucket: bucketName,
+        Key: `${id}-${i}.jpg`,
+        Body: image,
+      });
+
+      console.log("s3.upload.complete");
+      s3Urls.push(
+        `https://${bucketName}.s3-ap-southeast-2.amazonaws.com/${id}-${i}.jpg`
+      );
     }
 
     console.log("s3Urls", s3Urls);
