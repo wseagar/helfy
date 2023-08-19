@@ -1,8 +1,6 @@
 import generateImages from "@/defer/generateImages";
 import { sql } from "@vercel/postgres";
 
-export const runtime = "edge";
-
 type RecipeInput = {
   markdown: string;
 };
