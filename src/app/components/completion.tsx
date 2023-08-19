@@ -95,9 +95,8 @@ export function Completion() {
         <>
           <h1 className="text-2xl font-bold mb-4">Helfy</h1>
           <p className="mb-4">
-            Just type in a recipie idea or your favorite ingredients, and
-            Helfy's AI will whip up a fresh recipe with sustainability insights
-            on command!
+            Type in a recipie idea or your favorite ingredients, and Helfy's AI
+            will whip up a fresh recipe with sustainability insights on command!
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <textarea
@@ -121,7 +120,7 @@ export function Completion() {
                 Submit
               </button>
             </div>
-            <div className="flex justify-start space-x-4">
+            <div className="flex justify-start space-x-4 cursor-pointer">
               <a
                 onClick={() => {
                   const ingredients = [];
