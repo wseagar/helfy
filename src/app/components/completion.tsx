@@ -1,6 +1,7 @@
 "use client";
 
 import { useChat, useCompletion } from "ai/react";
+import { useState } from "react";
 import ReactMarkdown, { Options } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -75,6 +76,29 @@ const randomIngrediants = [
   "oyster sauce",
 ];
 
+const dietaryRequirements = [
+  "vegan",
+  "vegetarian",
+  "gluten free",
+  "dairy free",
+  "nut free",
+  "egg free",
+  "soy free",
+  "fish ree",
+  "shellfish free",
+  "pork free",
+  "red meat free",
+  "kosher",
+  "halal",
+  "low sodium",
+  "low carb",
+  "low fat",
+  "low calorie",
+  "paleo",
+  "keto",
+  "pescatarian",
+];
+
 export function Completion() {
   const {
     completion,
@@ -82,12 +106,27 @@ export function Completion() {
     stop,
     isLoading,
     handleInputChange,
-    handleSubmit,
     setInput,
     setCompletion,
+    complete,
   } = useCompletion({
     api: "/api/completion",
   });
+
+  const [showDietaryRequirements, setShowDietaryRequirements] = useState(false);
+  const [selectedDietaryRequirements, setSelectedDietaryRequirements] =
+    useState<string[]>([]);
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let prompt = input.trim();
+    if (dietaryRequirements.length > 0) {
+      prompt += "\nDIETRY REQUIREMENTS: \n";
+      prompt += selectedDietaryRequirements.join("\n");
+    }
+
+    await complete(prompt);
+  };
 
   return (
     <div className="bg-gray-900 text-white border border-gray-700 shadow-xl p-8 rounded-xl max-w-lg mx-auto mt-10">
@@ -98,7 +137,7 @@ export function Completion() {
             Type in a recipie idea or your favorite ingredients, and Helfy's AI
             will whip up a fresh recipe with sustainability insights on command!
           </p>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={submitHandler} className="space-y-4">
             <textarea
               rows={3}
               value={input}
@@ -120,7 +159,7 @@ export function Completion() {
                 Submit
               </button>
             </div>
-            <div className="flex justify-start space-x-4 cursor-pointer">
+            <div className="flex space-x-4 cursor-pointer justify-between">
               <a
                 onClick={() => {
                   const ingredients = [];
@@ -137,26 +176,87 @@ export function Completion() {
               >
                 Surprise me
               </a>
+              <a
+                onClick={() => {
+                  setInput("");
+                }}
+                className="text-blue-400 hover:text-blue-300 focus:outline-none"
+              >
+                Clear
+              </a>
             </div>
+            {/* Dietry restrictions */}
+            <div className="flex space-x-4 cursor-pointer justify-between">
+              <a
+                onClick={() => {
+                  setShowDietaryRequirements(!showDietaryRequirements);
+                }}
+                className="text-blue-400 hover:text-blue-300 focus:outline-none"
+              >
+                {showDietaryRequirements && (
+                  <>Hide Dietary Requirements {/*upward arrow*/} &#x25B2;</>
+                )}
+                {!showDietaryRequirements && (
+                  <>Add Dietary Requirements {/*downward arrow*/} &#x25BC;</>
+                )}
+              </a>
+            </div>
+            {showDietaryRequirements && (
+              <div className="grid grid-cols-2 gap-4">
+                {dietaryRequirements.map((dietaryRequirement) => (
+                  <div key={dietaryRequirement} className="flex gap-2">
+                    <input
+                      type="checkbox"
+                      id={dietaryRequirement}
+                      name={dietaryRequirement}
+                      value={dietaryRequirement}
+                      checked={selectedDietaryRequirements.includes(
+                        dietaryRequirement
+                      )}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedDietaryRequirements((prev) => [
+                            ...prev,
+                            e.target.value,
+                          ]);
+                        }
+                        if (!e.target.checked) {
+                          setSelectedDietaryRequirements((prev) => {
+                            const newDietaryRequirements = prev.filter(
+                              (dietaryRequirement) =>
+                                dietaryRequirement !== e.target.value
+                            );
+                            return newDietaryRequirements;
+                          });
+                        }
+                      }}
+                    />
+                    <label htmlFor={dietaryRequirement}>
+                      {dietaryRequirement}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
           </form>
         </>
       )}
       {completion && (
         <>
-          {!isLoading && (
-            <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-4">
-              <h1 className="text-2xl font-bold">Helfy</h1>
-              <button
-                onClick={() => {
-                  setInput("");
-                  setCompletion("");
-                }}
-                className="text-blue-400 hover:text-blue-300 focus:outline-none"
-              >
-                Back
-              </button>
-            </div>
-          )}
+          <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-4">
+            <h1 className="text-2xl font-bold">Helfy</h1>
+            <button
+              onClick={() => {
+                stop();
+                setInput("");
+                setCompletion("");
+              }}
+              className="text-blue-400 hover:text-blue-300 focus:outline-none"
+            >
+              Back
+            </button>
+          </div>
+
           <ReactMarkdown
             className="prose prose-invert break-words prose-p:leading-relaxed prose-pre:p-0"
             remarkPlugins={[remarkGfm, remarkMath]}
