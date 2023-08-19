@@ -8,6 +8,7 @@ import remarkMath from "remark-math";
 import { Recipe } from "../page";
 import useSWR from "swr";
 import ContentLoader from "react-content-loader";
+import { EVENTS } from "./data";
 
 const randomIngrediants = [
   "flour",
@@ -285,7 +286,7 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
               </div>
             )}
           </form>
-          <div>
+          <div className="mt-16">
             <h2 className="text-xl font-bold mt-4 mb-2">Community Recipes</h2>
             <div className="grid grid-cols-2 gap-4">
               {recipes.map((recipe) => (
@@ -304,6 +305,35 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
                   />
                   <p className="text-sm text-gray-400">{recipe.likes} likes</p>
                   <h3 className="text-lg font-bold">{recipe.recipe_title}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-16">
+            <h2 className="text-xl font-bold mt-4 mb-2">Community Markets</h2>
+            <p className="mb-4">
+              Find the nearest markets to you that sell sustainable ingredients
+              and products!
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              {EVENTS.map((event) => (
+                <div
+                  key={event.name}
+                  className="flex flex-col gap-2 border border-gray-700 p-4 rounded-md cursor-pointer hover:bg-gray-800"
+                >
+                  <a href={event.href} target="_blank" rel="noreferrer">
+                    <img
+                      src={event.img}
+                      alt={event.name}
+                      className="rounded-md"
+                    />
+                  </a>
+                  <p className="text-sm text-gray-400">{event.date}</p>
+                  <a href={event.href} target="_blank" rel="noreferrer">
+                    <h3 className="text-lg font-bold">{event.name}</h3>
+                  </a>
+                  <p className="text-sm text-gray-400">{event.location}</p>
+                  <p className="text-sm text-gray-400">{event.category}</p>
                 </div>
               ))}
             </div>
