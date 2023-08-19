@@ -44,7 +44,8 @@ function capitalize(str: string) {
 }
 
 export default async function Home() {
-  const { rows } = await sql`SELECT * FROM recipe ORDER BY likes DESC LIMIT 10`;
+  const { rows } =
+    await sql`SELECT * FROM recipe ORDER BY likes DESC, id DESC LIMIT 10`;
   const recipes: Recipe[] = rows
     .map((row) => ({
       id: row.id,

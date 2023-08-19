@@ -6,7 +6,7 @@ type RecipeInput = {
 };
 
 export async function GET() {
-  const { rows } = await sql`SELECT * FROM recipe ORDER BY likes DESC LIMIT 10`;
+  const { rows } = await sql`SELECT * FROM recipe ORDER BY id DESC LIMIT 10`;
 
   return new Response(JSON.stringify(rows), {
     headers: {
