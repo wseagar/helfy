@@ -117,8 +117,8 @@ export function Completion() {
   const [selectedDietaryRequirements, setSelectedDietaryRequirements] =
     useState<string[]>([]);
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitHandler = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     let prompt = input.trim();
     if (dietaryRequirements.length > 0) {
       prompt += "\nDIETRY REQUIREMENTS: \n";
@@ -264,7 +264,18 @@ export function Completion() {
           >
             {completion}
           </ReactMarkdown>
-          <div className="flex justify-start space-x-4">
+          {!isLoading && (
+            <div className="flex justify-start space-x-4 mt-2">
+              <button
+                type="button"
+                onClick={() => submitHandler()}
+                className="py-2 flex-1 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-400 focus:outline-none"
+              >
+                Generate another
+              </button>
+            </div>
+          )}
+          {/* <div className="flex justify-start space-x-4">
             {isLoading && (
               <button
                 type="button"
@@ -274,7 +285,7 @@ export function Completion() {
                 Stop
               </button>
             )}
-          </div>
+          </div> */}
         </>
       )}
     </div>
