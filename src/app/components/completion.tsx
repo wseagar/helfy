@@ -134,9 +134,9 @@ export function Completion() {
         <>
           <h1 className="text-2xl font-bold mb-4">Helfy</h1>
           <p className="mb-4">
-            Type in a recipie idea or your favorite ingredients, and
-            Helfy&apos;s AI will whip up a fresh recipe with sustainability
-            insights on command!
+            Type in a recipe idea or your favorite ingredients, and Helfy&apos;s
+            AI will whip up a fresh recipe with sustainability insights on
+            command!
           </p>
           <form onSubmit={submitHandler} className="space-y-4">
             <textarea
