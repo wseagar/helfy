@@ -35,6 +35,11 @@ Respond using markdown in the following format:
 1. Step 1
 2. Step 2
 3. Step 3
+
+### Sustainability
+
+<EXPLAIN WHY THIS RECIPIE IS SUSTAINABLE>
+<GIVE ALTERNATIVE INGREDIENTS THAT ARE MORE SUSTAINABLE>
 `;
 
 export async function POST(req: Request) {
