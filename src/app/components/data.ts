@@ -8,16 +8,6 @@
 
 const EVENTS_RAW = [
   {
-    img: "https://cdn.eventfinda.co.nz/uploads/events/transformed/1873702-807654-34.jpg?v=2",
-    text: "Downlights Candles Moving Sale\n\nDownlights Headquarters, Orakei, Auckland\n\nToday 9:00am – more dates\nMarkets and Fairs",
-    a: "https://www.eventfinda.co.nz/2023/downlights-candles-moving-sale/auckland",
-  },
-  {
-    img: "https://cdn.eventfinda.co.nz/uploads/events/transformed/1871589-806953-34.jpg",
-    text: "The Carterton Monster Annual Book Fair\n\nCarterton Events Centre, Carterton, Wairarapa\n\nToday 10:00am – more dates\nMarkets and Fairs",
-    a: "https://www.eventfinda.co.nz/2023/the-carterton-monster-annual-book-fair/carterton",
-  },
-  {
     img: "https://cdn.eventfinda.co.nz/uploads/events/transformed/1833438-792370-34.jpg?v=13",
     text: "Mangonui Craft Market\n\nMangonui Hall, Doubtless Bay, Far North\n\nToday 9:00am – more dates\nMarkets and Fairs",
     a: "https://www.eventfinda.co.nz/2022/mangonui-craft-market5/doubtless-bay",
@@ -32,11 +22,7 @@ const EVENTS_RAW = [
     text: "The Little Big Markets Mount Maunganui Winter Series\n\nCoronation Park, Mt Maunganui, Bay of Plenty\n\nToday 9:00am – more dates\nMarkets and Fairs",
     a: "https://www.eventfinda.co.nz/2023/the-little-big-markets-mount-maunganui-winter-series2/mt-maunganui",
   },
-  {
-    img: "https://cdn.eventfinda.co.nz/uploads/events/transformed/1795350-776431-34.jpg?v=8",
-    text: "Huge Pop & Rock Vinyl Record Sale\n\nAlbany Village Community Hall, Albany, Auckland\n\nToday 9:00am – more dates\nMarkets and Fairs",
-    a: "https://www.eventfinda.co.nz/2023/huge-pop-rock-vinyl-record-sale/auckland/albany",
-  },
+
   {
     img: "https://cdn.eventfinda.co.nz/uploads/events/transformed/1836183-793612-34.jpg",
     text: "Sustainable Market\n\nSir Edmund Hillary Library Papakura, Papakura, Auckland\n\nToday 10:00am – more dates\nMarkets and Fairs",
