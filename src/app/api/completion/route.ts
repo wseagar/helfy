@@ -18,7 +18,24 @@ The user will tell you what food they have available to them in their refrigerat
 
 Tell the user a recipie to make.
 
-IMPORTANTLY INCLUDE INFORMATION ABOUT THE CARBON FOOTPRINT OF THE RECIPIE AND THE SUSTAINABILITY OF THE INGREDIENTS.`;
+IMPORTANTLY INCLUDE INFORMATION ABOUT THE CARBON FOOTPRINT OF THE RECIPIE AND THE SUSTAINABILITY OF THE INGREDIENTS.
+
+Respond using markdown in the following format:
+
+## <RECIPIE NAME>
+
+### Ingredients
+
+| Ingredient | Quantity | Carbon Footprint | Sustainability |
+| ---------- | -------- | ---------------- | -------------- |
+|            |          |                  |                |
+
+### Instructions
+
+1. Step 1
+2. Step 2
+3. Step 3
+`;
 
 export async function POST(req: Request) {
   const json = await req.json();
