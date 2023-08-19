@@ -286,7 +286,7 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
             )}
           </form>
           <div>
-            <h2 className="text-xl font-bold mt-4 mb-2">Popular Recipes</h2>
+            <h2 className="text-xl font-bold mt-4 mb-2">Community Recipes</h2>
             <div className="grid grid-cols-2 gap-4">
               {recipes.map((recipe) => (
                 <div
