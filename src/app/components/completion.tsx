@@ -95,14 +95,15 @@ export function Completion() {
         <>
           <h1 className="text-2xl font-bold mb-4">Helfy</h1>
           <p className="mb-4">
-            Type in any food you have in your fridge or pantry and our low
-            carbon bot will serve you up a recipe right away.
+            Just type in a recipie idea or your favorite ingredients, and
+            Helfy's AI will whip up a fresh recipe with sustainability insights
+            on command!
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <textarea
               rows={3}
               value={input}
-              placeholder="Enter your ingredients here..."
+              placeholder="Enter your ingredients or meal idea here..."
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-700 rounded-md placeholder-gray-300 focus:outline-none focus:border-blue-400 bg-gray-800 text-white"
             />
