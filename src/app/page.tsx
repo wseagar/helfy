@@ -56,7 +56,7 @@ export default async function Home() {
     .filter((recipe) => recipe.image_urls.length > 0);
 
   return (
-    <main className="min-h-screen flex bg-gray-950">
+    <main className="min-h-screen flex justify-center bg-gray-950">
       <Completion recipes={recipes} />
     </main>
   );

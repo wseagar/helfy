@@ -6,6 +6,8 @@ import ReactMarkdown, { Options } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { Recipe } from "../page";
+import useSWR from "swr";
+import ContentLoader from "react-content-loader";
 
 const randomIngrediants = [
   "flour",
@@ -100,6 +102,14 @@ const dietaryRequirements = [
   "pescatarian",
 ];
 
+async function fetcher<JSON = any>(
+  input: RequestInfo,
+  init?: RequestInit
+): Promise<JSON> {
+  const res = await fetch(input, init);
+  return res.json();
+}
+
 async function saveRecipe(recipe: string) {
   const response = await fetch("/api/recipe", {
     method: "POST",
@@ -114,6 +124,14 @@ async function saveRecipe(recipe: string) {
 }
 
 export function Completion({ recipes }: { recipes: Recipe[] }) {
+  const [id, setId] = useState<number | undefined>(undefined);
+  const { data: recipe } = useSWR<Recipe>(
+    () => (id ? `/api/recipe/${id}` : null),
+    fetcher,
+    {
+      refreshInterval: 1000,
+    }
+  );
   const {
     completion,
     input,
@@ -125,8 +143,9 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
     complete,
   } = useCompletion({
     api: "/api/completion",
-    onFinish(prompt, completion) {
-      saveRecipe(completion);
+    async onFinish(prompt, completion) {
+      const { id } = await saveRecipe(completion);
+      setId(id);
     },
   });
 
@@ -155,7 +174,7 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
   };
 
   return (
-    <div className="bg-gray-900 text-white border border-gray-700 shadow-xl p-8 lg:rounded-xl lg:mt-10 max-w-4xl mx-auto">
+    <div className="bg-gray-900 text-white border border-gray-700 shadow-xl p-8 lg:rounded-xl lg:mt-10 max-w-4xl">
       {!completion && (
         <>
           <h1 className="text-2xl font-bold mb-4">Helfy</h1>
@@ -272,7 +291,11 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
               {recipes.map((recipe) => (
                 <div
                   key={recipe.id}
-                  className="flex flex-col gap-2 border border-gray-700 p-4 rounded-md"
+                  className="flex flex-col gap-2 border border-gray-700 p-4 rounded-md cursor-pointer hover:bg-gray-800"
+                  onClick={() => {
+                    setCompletion(recipe.markdown);
+                    setId(recipe.id);
+                  }}
                 >
                   <img
                     src={recipe.image_urls[0]}
@@ -296,11 +319,37 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
                 stop();
                 setInput("");
                 setCompletion("");
+                setId(undefined);
               }}
               className="text-blue-400 hover:text-blue-300 focus:outline-none"
             >
               Back
             </button>
+          </div>
+          <div className="flex justify-center items-center mb-4 w-auto">
+            {!recipe?.image_urls?.[0] && (
+              <div className="text-center">
+                <ContentLoader
+                  speed={2}
+                  width={256}
+                  height={256}
+                  viewBox="0 0 400 460"
+                  backgroundColor="#f3f3f3"
+                  foregroundColor="#ecebeb"
+                >
+                  <rect x="0" y="60" rx="2" ry="2" width="400" height="400" />
+                </ContentLoader>
+                <p className="text-sm text-gray-400">Image generating...</p>
+              </div>
+            )}
+            {recipe?.image_urls?.[0] && (
+              <img
+                src={recipe.image_urls[0]}
+                alt={recipe.recipe_title}
+                className="rounded-md"
+                width={256}
+              />
+            )}
           </div>
 
           <ReactMarkdown
@@ -320,17 +369,6 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
               </button>
             </div>
           )}
-          {/* <div className="flex justify-start space-x-4">
-            {isLoading && (
-              <button
-                type="button"
-                onClick={stop}
-                className="py-2 flex-1 px-4 bg-red-500 text-white rounded-md hover:bg-red-400 focus:outline-none"
-              >
-                Stop
-              </button>
-            )}
-          </div> */}
         </>
       )}
     </div>
