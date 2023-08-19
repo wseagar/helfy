@@ -99,6 +99,18 @@ const dietaryRequirements = [
   "pescatarian",
 ];
 
+async function saveRecipe(recipe: string) {
+  const response = await fetch("/api/recipe", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ markdown: recipe }),
+  });
+  const data = await response.json();
+  return data;
+}
+
 export function Completion() {
   const {
     completion,
@@ -111,6 +123,9 @@ export function Completion() {
     complete,
   } = useCompletion({
     api: "/api/completion",
+    onFinish(prompt, completion) {
+      saveRecipe(completion);
+    },
   });
 
   const [showDietaryRequirements, setShowDietaryRequirements] = useState(false);
