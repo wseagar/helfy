@@ -32,7 +32,7 @@ const wordsToNotCapitalize = [
   "without",
 ];
 
-function capitalize(str: string) {
+export function capitalize(str: string) {
   const words = str.split(" ");
   const capitalizedWords = words.map((word, index) => {
     if (index === 0 || !wordsToNotCapitalize.includes(word.toLowerCase())) {

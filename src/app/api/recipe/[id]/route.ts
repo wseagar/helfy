@@ -11,3 +11,16 @@ export async function GET(
     },
   });
 }
+
+export async function POST(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const { rows } =
+    await sql`UPDATE recipe SET likes = likes + 1 WHERE id = ${params.id} RETURNING *`;
+  return new Response(JSON.stringify(rows[0]), {
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+}

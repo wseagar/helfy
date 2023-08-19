@@ -10,6 +10,10 @@ import useSWR from "swr";
 import ContentLoader from "react-content-loader";
 import { EVENTS } from "./data";
 
+//
+
+const BASE_URL = "https://sustainable-meal-planner.vercel.app";
+
 const randomIngrediants = [
   "flour",
   "sugar",
@@ -124,8 +128,16 @@ async function saveRecipe(recipe: string) {
   return data;
 }
 
-export function Completion({ recipes }: { recipes: Recipe[] }) {
-  const [id, setId] = useState<number | undefined>(undefined);
+export function Completion({
+  recipes,
+  recipeId,
+  initialCompletion,
+}: {
+  recipes: Recipe[];
+  recipeId?: number;
+  initialCompletion?: string;
+}) {
+  const [id, setId] = useState<number | undefined>(recipeId);
   const { data: recipe } = useSWR<Recipe>(
     () => (id ? `/api/recipe/${id}` : null),
     fetcher,
@@ -148,6 +160,7 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
       const { id } = await saveRecipe(completion);
       setId(id);
     },
+    initialCompletion: initialCompletion,
   });
 
   const [showDietaryRequirements, setShowDietaryRequirements] = useState(false);
@@ -393,6 +406,32 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
               />
             )}
           </div>
+          {/* Like and share button */}
+          {recipe && (
+            <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-4">
+              <div className="flex gap-4">
+                <button
+                  onClick={() => {
+                    fetch(`/api/recipe/${id}`, {
+                      method: "POST",
+                    });
+                  }}
+                  className="text-blue-400 hover:text-blue-300 focus:outline-none"
+                >
+                  Like
+                </button>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${BASE_URL}/recipe/${id}`);
+                  }}
+                  className="text-blue-400 hover:text-blue-300 focus:outline-none"
+                >
+                  Copy Link
+                </button>
+              </div>
+              <p className="text-sm text-gray-400">{recipe?.likes} likes</p>
+            </div>
+          )}
 
           <ReactMarkdown
             className="prose prose-invert break-words prose-p:leading-relaxed prose-pre:p-0"
