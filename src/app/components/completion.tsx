@@ -160,6 +160,18 @@ export function Completion({ recipes }: { recipes: Recipe[] }) {
   ) => {
     e?.preventDefault();
     let prompt = input.trim();
+    if (prompt.length === 0) {
+      const ingredients = [];
+      for (let i = 0; i < 3; i++) {
+        ingredients.push(
+          randomIngrediants[
+            Math.floor(Math.random() * randomIngrediants.length)
+          ]
+        );
+      }
+      prompt = ingredients.join("\n");
+    }
+
     if (dietaryRequirements.length > 0) {
       prompt += "\nDIETRY REQUIREMENTS: \n";
       prompt += selectedDietaryRequirements.join("\n");
