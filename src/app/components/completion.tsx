@@ -5,6 +5,7 @@ import { useState } from "react";
 import ReactMarkdown, { Options } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import { Recipe } from "../page";
 
 const randomIngrediants = [
   "flour",
@@ -112,7 +113,7 @@ async function saveRecipe(recipe: string) {
   return data;
 }
 
-export function Completion() {
+export function Completion({ recipes }: { recipes: Recipe[] }) {
   const {
     completion,
     input,
@@ -154,7 +155,7 @@ export function Completion() {
   };
 
   return (
-    <div className="bg-gray-900 text-white border border-gray-700 shadow-xl p-8 rounded-xl max-w-lg mx-auto mt-10">
+    <div className="bg-gray-900 text-white border border-gray-700 shadow-xl p-8 lg:rounded-xl lg:mt-10 max-w-4xl mx-auto">
       {!completion && (
         <>
           <h1 className="text-2xl font-bold mb-4">Helfy</h1>
@@ -265,6 +266,25 @@ export function Completion() {
               </div>
             )}
           </form>
+          <div>
+            <h2 className="text-xl font-bold mt-4 mb-2">Popular Recipes</h2>
+            <div className="grid grid-cols-2 gap-4">
+              {recipes.map((recipe) => (
+                <div
+                  key={recipe.id}
+                  className="flex flex-col gap-2 border border-gray-700 p-4 rounded-md"
+                >
+                  <img
+                    src={recipe.image_urls[0]}
+                    alt={recipe.recipe_title}
+                    className="rounded-md"
+                  />
+                  <p className="text-sm text-gray-400">{recipe.likes} likes</p>
+                  <h3 className="text-lg font-bold">{recipe.recipe_title}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
         </>
       )}
       {completion && (

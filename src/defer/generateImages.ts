@@ -33,36 +33,47 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 async function generateImages(id: string, title: string) {
-  const image = await openai.createImage({
-    prompt: `${title}, food photography, 15mm, warm light`,
-  });
+  try {
+    console.log("openai.createImage", id, title);
+    const image = await openai.createImage({
+      prompt: `${title}, food photography, 15mm, warm light`,
+    });
 
-  const imageResponse = await image.json();
-  console.log(imageResponse);
+    const imageResponse = await image.json();
+    console.log("openai.imageResponse", imageResponse);
 
-  const urls = imageResponse.data.map((d: any) => d.url);
-  const blobs: ArrayBuffer[] = await Promise.all(
-    urls.map((url: string) => fetch(url).then((r) => r.arrayBuffer()))
-  );
+    const urls = imageResponse.data.map((d: any) => d.url);
+    console.log("urls", urls);
+    const buffers: ArrayBuffer[] = await Promise.all(
+      urls.map((url: string) => fetch(url).then((r) => r.arrayBuffer()))
+    );
+    console.log("buffers", buffers.length);
 
-  const images = blobs.map((blob) => Buffer.from(blob));
+    const images = buffers.map((blob) => Buffer.from(blob));
+    console.log("images", images.length);
 
-  const s3Urls = [];
+    const s3Urls = [];
 
-  for (let i = 0; i < images.length; i++) {
-    const image = images[i];
-    const params = {
-      Bucket: bucketName,
-      Key: `${id}-${i}.jpg`,
-      Body: image,
-      ACL: "public-read",
-    };
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+      const params = {
+        Bucket: bucketName,
+        Key: `${id}-${i}.jpg`,
+        Body: image,
+      };
 
-    const result = await s3.upload(params).promise();
-    s3Urls.push(result.Location);
+      console.log("s3.upload", params);
+      const result = await s3.upload(params).promise();
+      console.log("s3.upload.result", result);
+      s3Urls.push(result.Location);
+    }
+
+    console.log("s3Urls", s3Urls);
+    await sql`UPDATE recipe SET image_urls = ${s3Urls as any} WHERE id = ${id}`;
+    console.log("sql");
+  } catch (e) {
+    console.error(e);
   }
-
-  await sql`UPDATE recipe SET image_urls = ${s3Urls as any} WHERE id = ${id}`;
 }
 
 export default defer(generateImages);
