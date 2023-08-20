@@ -12,7 +12,7 @@ import { EVENTS } from "./data";
 
 //
 
-const BASE_URL = "https://sustainable-meal-planner.vercel.app";
+const BASE_URL = "https://helfy.guru";
 
 const randomIngrediants = [
   "flour",
