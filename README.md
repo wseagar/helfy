@@ -1,35 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Helfy: An AI-powered Recipe App (Govhack 2023 Project)
 
-## Getting Started
+Helfy is an educational AI-powered recipe app designed to empower New Zealanders to reduce carbon emissions at the individual and community level.
 
-First, run the development server:
+You can input a recipe idea or your favorite ingredients, and Helfy's AI will whip up a fresh recipe with sustainability insights.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+### Key Features:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Low Carbon Recipes:
+Helfy suggests recipes that are centered around low carbon footprint ingredients. It takes into consideration the local production, seasonality, and transportation of the food items.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pantry Inventory System:
+Users can input what they have in their pantry, and Helfy will generate recipes based on these ingredients, minimizing waste, and reducing the need for transportation.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Community Engagement:
+The app allows local communities to upvote and share the best recipes. Allowing more people to find the best low carbon recipes.
 
-## Learn More
+## Educational Content:
+Helfy educates users on the carbon footprint of various foods in the recipe, helping them make conscious decisions about what to eat.
 
-To learn more about Next.js, take a look at the following resources:
+## Personalized Meal Planning:
+Based on users' preferences, and dietary requirements, Helfy crafts personalized recipes that are both delicious and environmentally responsible.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Integration with Local Markets:
+Helfy can suggest locally sourced ingredients and point users to nearby farmers' markets or community-supported agriculture, reducing the carbon footprint of food transportation.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# sustainable-meal-planner
+### Helfy's Mission:
+To engage New Zealand households in the global fight against climate change by providing an accessible and intelligent platform to reduce carbon emissions through informed food choices.
